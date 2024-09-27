@@ -30,13 +30,18 @@ export class PensamentoService {
     // Chama o método delete do HttpClient para fazer uma requisição HTTP DELETE para a URL criada.
     return this.http.delete<Pensamento>(url)
   }
+  editarPensamento(pensamento:Pensamento):Observable<Pensamento>{
+    const url = `${this.API}/${pensamento.id}`
+    return this.http.put<Pensamento>(url,pensamento)
+
+  }
   //Metodo Buscar Por ID
   buscarPorId(id:number):Observable<Pensamento>{
      // Cria a URL para a requisição GET, incluindo o ID do pensamento.
      const url =`${this.API}/${id}`
      // Chama o método get do HttpClient para fazer uma requisição HTTP GET para a URL criada.
      return this.http.get<Pensamento>(url);
-
   }
+
 
 }

@@ -1,12 +1,6 @@
 {
   "pensamentos": [
     {
-      "id": 1,
-      "conteudo": "Que bom que voce veio",
-      "autoria": "Gabriel",
-      "modelo": "modelo1"
-    },
-    {
       "id": 2,
       "conteudo": "Que dia bonito",
       "autoria": "Olivia",

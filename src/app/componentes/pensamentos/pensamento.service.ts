@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Pensamento } from './pensamento';
 import { Observable } from 'rxjs';
 
@@ -7,41 +7,33 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PensamentoService {
-  // Define a URL da API
-  private readonly API = "http://localhost:3000/pensamentos"
 
-// Construtor do serviço
+  private readonly API = 'http://localhost:3000/pensamentos'
+
   constructor(private http: HttpClient) { }
 
-  //Metodo de Listar Pensamentos
-  listar():Observable<Pensamento[]>{
-    //Chama o método get do HttpClient para fazer uma requisição HTTP GET para a URL this.API. em uma lista de Pensamentos
+  listar(): Observable<Pensamento[]> {
     return this.http.get<Pensamento[]>(this.API)
   }
-  //Metodo Criar um novo pensamento
-  criar(pensamento:Pensamento):Observable<Pensamento> {
-    // Chama o método post do HttpClient para fazer uma requisição HTTP POST para a URL this.API, enviando o pensamento como corpo da requisição.
-    return this.http.post<Pensamento>(this.API,pensamento)
+
+  criar(pensamento: Pensamento): Observable<Pensamento> {
+    return this.http.post<Pensamento>(this.API, pensamento)
   }
-  //Metodo Exclui um pensamento
-  excluir(id:number):Observable<Pensamento>{
-    // Cria a URL para a requisição DELETE, direcionando o ID do pensamento.
+
+  editar(pensamento: Pensamento): Observable<Pensamento> {
+    const url = `${this.API}/${pensamento.id}`
+    return this.http.put<Pensamento>(url, pensamento )
+
+  }
+
+  excluir(id: number): Observable<Pensamento> {
     const url = `${this.API}/${id}`
-    // Chama o método delete do HttpClient para fazer uma requisição HTTP DELETE para a URL criada.
     return this.http.delete<Pensamento>(url)
   }
-  editarPensamento(pensamento:Pensamento):Observable<Pensamento>{
-    const url = `${this.API}/${pensamento.id}`
-    return this.http.put<Pensamento>(url,pensamento)
 
+  buscarPorId(id: number): Observable<Pensamento> {
+    const url = `${this.API}/${id}`
+    return this.http.get<Pensamento>(url)
   }
-  //Metodo Buscar Por ID
-  buscarPorId(id:number):Observable<Pensamento>{
-     // Cria a URL para a requisição GET, incluindo o ID do pensamento.
-     const url =`${this.API}/${id}`
-     // Chama o método get do HttpClient para fazer uma requisição HTTP GET para a URL criada.
-     return this.http.get<Pensamento>(url);
-  }
-
 
 }

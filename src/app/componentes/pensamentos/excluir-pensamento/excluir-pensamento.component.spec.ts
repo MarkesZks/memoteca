@@ -8,10 +8,10 @@ describe('ExcluirPensamentoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ExcluirPensamentoComponent]
+      declarations: [ ExcluirPensamentoComponent ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ExcluirPensamentoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

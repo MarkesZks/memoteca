@@ -24,7 +24,6 @@ export class CriarPensamentoComponent implements OnInit {
       conteudo:['',Validators.compose(
         [Validators.required,
           Validators.pattern(/(.|\s)*\S(.|\s)*/),
-
         ]
 
       )],
@@ -37,7 +36,7 @@ export class CriarPensamentoComponent implements OnInit {
   }
 
   criarPensamento() {
-    console.log(this.formulario.status)
+    console.log(this.formulario.get('autoria')?.errors)
     if(this.formulario.valid){
       this.service.criar(this.formulario.value).subscribe(() => {
         this.router.navigate(['/listarPensamento'])

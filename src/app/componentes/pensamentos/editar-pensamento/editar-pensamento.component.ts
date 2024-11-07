@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PensamentoService } from './../pensamento.service';
 
@@ -21,24 +21,27 @@ export class EditarPensamentoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.formulario= this.formBuilder.group({
-      conteudo:['',Validators.compose(
-        [Validators.required,
-          Validators.pattern(/(.|\s)*\S(.|\s)*/),
-        ]
-
-      )],
-      autoria:['',Validators.compose(
-        [Validators.required,
-         Validators.minLength(3)
-        ])],
-      modelo:['',[Validators.required]]
-    })
-
     const id = this.route.snapshot.paramMap.get('id')
     this.service.buscarPorId(parseInt(id!)).subscribe((pensamento) => {
-      this.formulario.setValue(pensamento)
+      this.formulario= this.formBuilder.group({
+        id: [pensamento.id],
+        conteudo:[pensamento.conteudo,Validators.compose(
+          [Validators.required,
+            Validators.pattern(/(.|\s)*\S(.|\s)*/),
+          ]
+
+        )],
+        autoria:[pensamento.autoria,Validators.compose(
+          [Validators.required,
+           Validators.minLength(3),
+           this.minusculoValidator
+          ])],
+        modelo:[pensamento.modelo,[Validators.required]]
+      })
+
     })
+
+
   }
 
   editarPensamento() {
@@ -51,4 +54,21 @@ export class EditarPensamentoComponent implements OnInit {
     this.router.navigate(['/listarPensamento'])
   }
 
+  habilitarBotao(){
+    if(this.formulario.valid){
+      return 'botao'
+    }else{
+      return 'botao__desabilitado'
+    }
+  }
+
+
+
+  minusculoValidator(control: AbstractControl) {
+    const autoria = control.value as string;
+    if(autoria !== autoria?.toLowerCase()) {
+        return { minusculo: true };
+    } else
+    return null;
+}
 }

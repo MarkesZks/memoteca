@@ -23,25 +23,19 @@ export class EditarPensamentoComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
     this.service.buscarPorId(parseInt(id!)).subscribe((pensamento) => {
-      this.formulario= this.formBuilder.group({
+      this.formulario = this.formBuilder.group({
         id: [pensamento.id],
-        conteudo:[pensamento.conteudo,Validators.compose(
-          [Validators.required,
-            Validators.pattern(/(.|\s)*\S(.|\s)*/),
-          ]
-
-        )],
-        autoria:[pensamento.autoria,Validators.compose(
-          [Validators.required,
-           Validators.minLength(3),
-           this.minusculoValidator
-          ])],
-        modelo:[pensamento.modelo,[Validators.required]]
+        conteudo: [pensamento.conteudo, Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/)
+        ])],
+        autoria: [pensamento.autoria, Validators.compose([
+          Validators.required,
+          Validators.minLength(3)
+        ])],
+        modelo: [pensamento.modelo]
       })
-
     })
-
-
   }
 
   editarPensamento() {
@@ -54,12 +48,11 @@ export class EditarPensamentoComponent implements OnInit {
     this.router.navigate(['/listarPensamento'])
   }
 
-  habilitarBotao(){
-    if(this.formulario.valid){
-      return 'botao'
-    }else{
-      return 'botao__desabilitado'
+  habilitarBotao(): string {
+    if(this.formulario.valid) {
+      return "botao"
     }
+    else return "botao__desabilitado"
   }
 
 

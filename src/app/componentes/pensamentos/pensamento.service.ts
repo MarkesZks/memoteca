@@ -12,11 +12,15 @@ export class PensamentoService {
 
   constructor(private http: HttpClient) { }
 
-  listar(pagina:number): Observable<Pensamento[]> {
+  listar(pagina:number,filtro:string): Observable<Pensamento[]> {
     const intensPorPagina= 6;
     let params = new HttpParams()
     .set("_page",pagina)
     .set("_limit",intensPorPagina)
+    if(filtro.trim().length>2) {  //remove os espaços vazios
+      //q -> vem de query para filtrar por texto
+      params = params.set("q",filtro)
+    }
     return this.http.get<Pensamento[]>(this.API,{params:params})
   }
 

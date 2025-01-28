@@ -16,6 +16,7 @@ export class PensamentoComponent implements OnInit {
     modelo: 'modelo3',
     favorito: false
   }
+  @Input() listaFavoritos:Pensamento[] = [];
 
   constructor(
      private service:PensamentoService
@@ -37,8 +38,11 @@ export class PensamentoComponent implements OnInit {
     return 'ativo'
   }
   atualizarFavoritos(){
-    this.service.mudarFavorito(this.pensamento).subscribe();
-    console.log(this.pensamento.favorito)
+    this.service.mudarFavorito(this.pensamento).subscribe(()=>{
+      this.listaFavoritos.splice(this.listaFavoritos.indexOf(this.pensamento),1)
+      //usamos splice para remover um item do array listaFavoritos. O índice é encontrado usando indexOf, que retorna a posição do pensamento a ser removido. A quantidade a remover é 1, pois queremos remover apenas um pensamento.
+    });
+
     /*
     O método subscribe() é usado para se inscrever em um Observable.
      Quando você chama mudarFavorito, ele retorna um Observable<Pensamento>, que representa uma operação assíncrona. Ao se inscrever, você está dizendo ao Angular para executar a chamada ao backend e, quando a resposta chegar, você pode lidar com essa resposta. No seu caso, você pode querer fazer algo com o pensamento atualizado ou simplesmente confirmar que a operação foi bem-sucedida.*/
